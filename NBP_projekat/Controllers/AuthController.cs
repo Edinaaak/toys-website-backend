@@ -35,7 +35,6 @@ namespace NBP_projekat.Controllers
             try
             {
                 var user = mapper.Map<User>(request);
-                var userResponse = new UserResponse();
                 var result = await _userManager.CreateAsync(user, request.Password);
                 if (request.Role == 2)
                     await _userManager.AddToRoleAsync(user, "Slikar");
@@ -45,7 +44,7 @@ namespace NBP_projekat.Controllers
                 {
                     return BadRequest(new { message = "something went wrong" });
                 }
-                mapper.Map<User, UserResponse>(user, userResponse);
+                var userResponse = mapper.Map<UserResponse>(user);
                 return Ok(userResponse);
 
             }

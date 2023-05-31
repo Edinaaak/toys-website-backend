@@ -13,7 +13,7 @@ using UmetnickaDela.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -52,6 +52,9 @@ builder.Services.AddAuthentication(options =>
     }
     );
 var app = builder.Build();
+
+// Configure the HTTP request pi
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 using (var serviceScope = app.Services.CreateScope())
 {

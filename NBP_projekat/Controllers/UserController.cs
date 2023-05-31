@@ -1,7 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NBP_projekat.Mediator.Users;
 using UmetnickaDela.Contracts.Models.Identity.Request;
+using UmetnickaDela.Data.Models;
 
 namespace NBP_projekat.Controllers
 {
@@ -10,9 +13,11 @@ namespace NBP_projekat.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMediator mediator;
-        public UserController(IMediator mediator)
+        private readonly RoleManager<AppRole> role;
+        public UserController(IMediator mediator, RoleManager<AppRole> role)
         {
             this.mediator = mediator;
+            this.role = role;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllUsers() => Ok(await mediator.Send(new GetAllUsersQuery()));
@@ -42,6 +47,15 @@ namespace NBP_projekat.Controllers
             if(!result.IsSucces)
                 return NotFound(result.Errors.FirstOrDefault());
             return Ok(result.Data);
+        }
+
+        [HttpGet("/role")]
+        public async Task<IActionResult> getRoles()
+        {
+            User user = new User();
+            var lista = await role.Roles.ToListAsync();
+            return Ok(lista);
+
         }
              
     }
