@@ -27,7 +27,7 @@ namespace NBP_projekat.Mediator.Masterpieces
         {
 
             var lista = new List<UmetnickoDelo>();
-            if(request.Request.salaId.HasValue || request.Request.celinaId.HasValue)
+            if(request.Request.salaId.HasValue || request.Request.celinaId.HasValue || request.Request.salaId != null)
                 lista = await unitOfWork.UmetnickoDelo.FilterBySalaTema(request.Request);
             else
             lista = await unitOfWork.UmetnickoDelo.GetAll();

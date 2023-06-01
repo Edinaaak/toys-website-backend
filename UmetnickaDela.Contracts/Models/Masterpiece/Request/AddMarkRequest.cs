@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace UmetnickaDela.Contracts.Models.Masterpiece.Request
 {
-    public class MasterpieceFilterRequest
+    public  class AddMarkRequest
     {
-        public int? celinaId { get; set; }
-        public int? salaId { get; set; } 
+        public float Ocena { get; set; }
+        public int UserId { get; set; }
+        public int DeloId { get; set; }
     }
 }

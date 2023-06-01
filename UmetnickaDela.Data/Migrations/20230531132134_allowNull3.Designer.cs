@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UmetnickaDela.Data;
 
@@ -11,9 +12,10 @@ using UmetnickaDela.Data;
 namespace UmetnickaDela.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230531132134_allowNull3")]
+    partial class allowNull3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -358,6 +360,9 @@ namespace UmetnickaDela.Data.Migrations
                     b.Property<int>("DeloId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<float>("Ocena")
                         .HasColumnType("real");
 
@@ -365,7 +370,7 @@ namespace UmetnickaDela.Data.Migrations
 
                     b.HasIndex("DeloId");
 
-                    b.ToTable("userDela");
+                    b.ToTable("userDelo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -456,12 +461,12 @@ namespace UmetnickaDela.Data.Migrations
             modelBuilder.Entity("UmetnickaDela.Data.Models.UserDelo", b =>
                 {
                     b.HasOne("UmetnickaDela.Data.Models.UmetnickoDelo", "UmetnickoDelo")
-                        .WithMany("userDelo")
+                        .WithMany("UserDelo")
                         .HasForeignKey("DeloId")
                         .IsRequired();
 
                     b.HasOne("UmetnickaDela.Data.Models.User", "User")
-                        .WithMany("userDelo")
+                        .WithMany("UserDelo")
                         .HasForeignKey("UserId")
                         .IsRequired();
 
@@ -472,12 +477,12 @@ namespace UmetnickaDela.Data.Migrations
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.UmetnickoDelo", b =>
                 {
-                    b.Navigation("userDelo");
+                    b.Navigation("UserDelo");
                 });
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.User", b =>
                 {
-                    b.Navigation("userDelo");
+                    b.Navigation("UserDelo");
                 });
 #pragma warning restore 612, 618
         }

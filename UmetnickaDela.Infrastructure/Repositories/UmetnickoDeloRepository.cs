@@ -17,13 +17,27 @@ namespace UmetnickaDela.Infrastructure.Repositories
     public class UmetnickoDeloRepository : Repository<UmetnickoDelo>, IUmetnickoDelo
     {
         private readonly DataContext dataContext;
+        private readonly IMapper mapper;
         public UmetnickoDeloRepository(DataContext context, IMapper mapper) : base(context, mapper)
         {
             this.dataContext = context; 
+            this.mapper = mapper;
+        }
+
+      
+
+        public async Task<bool> AddMark(AddMarkRequest request)
+        {
+            var userDelo = mapper.Map<UserDelo>(request);
+            dataContext.userDela.Add(userDelo);
+            var result = await dataContext.SaveChangesAsync();
+            return result > 0;
+
         }
 
         public async Task<List<UmetnickoDelo>> FilterBySalaTema(MasterpieceFilterRequest request)
         {
+          
             var lista = await dataContext.umetnickaDela.FilterBySalaTema(request.salaId, request.celinaId).ToListAsync();
             if(lista == null)
                 return await dataContext.umetnickaDela.ToListAsync();

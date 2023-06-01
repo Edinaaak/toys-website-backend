@@ -13,7 +13,7 @@ using UmetnickaDela.Data.Models;
 namespace NBP_projekat.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;

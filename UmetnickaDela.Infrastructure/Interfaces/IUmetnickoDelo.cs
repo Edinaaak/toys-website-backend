@@ -11,5 +11,6 @@ namespace UmetnickaDela.Infrastructure.Interfaces
     public interface IUmetnickoDelo : IRepository<UmetnickoDelo>
     {
         Task<List<UmetnickoDelo>> FilterBySalaTema(MasterpieceFilterRequest request);
+        Task<bool> AddMark(AddMarkRequest request);
     }
 }

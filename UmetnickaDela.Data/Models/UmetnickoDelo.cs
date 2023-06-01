@@ -19,7 +19,7 @@ namespace UmetnickaDela.Data.Models
         public float Sirina { get; set; }
         public string Putanja { get; set; }
 
-        public Sala sala { get; set; }
+        public Sala? sala { get; set; }
         public User user { get; set; }
         public TematskaCelina tematskaCelina { get; set; }
         [ForeignKey("sala")]
@@ -29,7 +29,7 @@ namespace UmetnickaDela.Data.Models
         public int slikarId { get; set; }
         [ForeignKey("tematskaCelina")]
         public int? celinaId { get; set; }
+        public List<UserDelo> userDelo { get; set; }
 
-        public List<UserDelo> UserDelo { get; set; }
     }
 }

@@ -1,9 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor.TagHelpers;
+using Microsoft.EntityFrameworkCore;
 using NBP_projekat.Mediator.Masterpieces;
 using System.Diagnostics;
 using UmetnickaDela.Contracts.Models.Masterpiece.Request;
+using UmetnickaDela.Data;
+using UmetnickaDela.Data.Models;
+using UmetnickaDela.Infrastructure;
 
 namespace NBP_projekat.Controllers
 {
@@ -12,9 +16,13 @@ namespace NBP_projekat.Controllers
     public class MasterpieceController : ControllerBase
     {
         private readonly IMediator mediator;
-        public MasterpieceController(IMediator mediator)
+        private readonly IUnitOfWork unitOfWork;
+        private readonly DataContext context;
+        public MasterpieceController(IMediator mediator, IUnitOfWork unitOfWork, DataContext context)
         {
             this.mediator = mediator;
+            this.unitOfWork = unitOfWork;
+            this.context = context;
         }
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery]MasterpieceFilterRequest request)
@@ -58,5 +66,21 @@ namespace NBP_projekat.Controllers
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
+
+        [HttpPost("add-mark")]
+        public async Task<IActionResult> RateMasterpiece (AddMarkRequest userDelo)
+        {
+            var result = await unitOfWork.UmetnickoDelo.AddMark(userDelo);
+            if(!result)
+                return BadRequest("You can not add a mark because you rated it");
+            return Ok(userDelo.Ocena);
+        }
+
+        [HttpGet("thematic-unit")]
+        public async Task<IActionResult> GetThematicUnits()
+        {
+            return Ok(await context.celine.ToListAsync());
+        }
+
     }
 }

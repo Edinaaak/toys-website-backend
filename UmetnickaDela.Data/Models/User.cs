@@ -21,7 +21,7 @@ namespace UmetnickaDela.Data.Models
         public string JMBG { get; set; }
         public string NazivMesta { get; set; }
         public string Ptt { get; set; }
-        public List<UserDelo> UserDelo { get; set; }
+        public List<UserDelo> userDelo { get; set; }
 
 
     }

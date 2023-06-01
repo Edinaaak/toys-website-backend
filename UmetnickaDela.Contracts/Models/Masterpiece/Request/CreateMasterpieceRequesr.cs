@@ -20,7 +20,7 @@ namespace UmetnickaDela.Contracts.Models.Masterpiece.Request
         public int slikarId { get; set; }
         public int celinaId { get; set; }
 
-        public int salaId { get; set; } = 15;
+        public int? salaId { get; set; } 
 
     }
 }

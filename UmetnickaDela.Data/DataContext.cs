@@ -21,19 +21,19 @@ namespace UmetnickaDela.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<UserDelo>()
-         .HasKey(x => new {x.UserId, x.DeloId});
+         .HasKey(x => new { x.UserId, x.DeloId });
 
             modelBuilder.Entity<UserDelo>()
                 .HasOne(bc => bc.User)
-                .WithMany(b => b.UserDelo)
+                .WithMany(b => b.userDelo)
                 .HasForeignKey(bc => bc.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<UserDelo>()
                 .HasOne(bc => bc.UmetnickoDelo)
-                .WithMany(c => c.UserDelo)
+                .WithMany(c => c.userDelo)
                 .HasForeignKey(bc => bc.DeloId)
-                .OnDelete(DeleteBehavior.ClientSetNull); 
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
         }
 
@@ -44,7 +44,7 @@ namespace UmetnickaDela.Data
         public DbSet<Sala> sale { get; set; }
         public DbSet<TematskaCelina> celine { get; set; }
         public DbSet<UmetnickoDelo> umetnickaDela { get; set; }
-        public DbSet<UserDelo> userDelo { get; set; }
+        public DbSet<UserDelo> userDela { get; set; }
 
     }
 

@@ -11,7 +11,7 @@ namespace UmetnickaDela.Contracts.Extensions
     {
         public static IQueryable<UmetnickoDelo> FilterBySalaTema(this IQueryable<UmetnickoDelo> query, int? salaID, int? temaId)
         {
-            if(salaID.HasValue)
+            if(salaID.HasValue || salaID != null)
                 query = query.Where(x => x.salaId == salaID);
             if(temaId.HasValue)
                 query = query.Where(x => x.celinaId == temaId);

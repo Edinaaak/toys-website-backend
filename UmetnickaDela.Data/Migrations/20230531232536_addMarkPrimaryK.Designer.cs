@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UmetnickaDela.Data;
 
@@ -11,9 +12,10 @@ using UmetnickaDela.Data;
 namespace UmetnickaDela.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230531232536_addMarkPrimaryK")]
+    partial class addMarkPrimaryK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -350,24 +352,6 @@ namespace UmetnickaDela.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("UmetnickaDela.Data.Models.UserDelo", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DeloId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Ocena")
-                        .HasColumnType("real");
-
-                    b.HasKey("UserId", "DeloId");
-
-                    b.HasIndex("DeloId");
-
-                    b.ToTable("userDela");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("UmetnickaDela.Data.Models.AppRole", null)
@@ -451,33 +435,6 @@ namespace UmetnickaDela.Data.Migrations
                     b.Navigation("tematskaCelina");
 
                     b.Navigation("user");
-                });
-
-            modelBuilder.Entity("UmetnickaDela.Data.Models.UserDelo", b =>
-                {
-                    b.HasOne("UmetnickaDela.Data.Models.UmetnickoDelo", "UmetnickoDelo")
-                        .WithMany("userDelo")
-                        .HasForeignKey("DeloId")
-                        .IsRequired();
-
-                    b.HasOne("UmetnickaDela.Data.Models.User", "User")
-                        .WithMany("userDelo")
-                        .HasForeignKey("UserId")
-                        .IsRequired();
-
-                    b.Navigation("UmetnickoDelo");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("UmetnickaDela.Data.Models.UmetnickoDelo", b =>
-                {
-                    b.Navigation("userDelo");
-                });
-
-            modelBuilder.Entity("UmetnickaDela.Data.Models.User", b =>
-                {
-                    b.Navigation("userDelo");
                 });
 #pragma warning restore 612, 618
         }
