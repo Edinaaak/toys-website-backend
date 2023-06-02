@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UmetnickaDela.Contracts.Models.Masterpiece.Request;
+using UmetnickaDela.Contracts.Models.Masterpiece.Response;
 using UmetnickaDela.Data.Models;
 
 namespace UmetnickaDela.Infrastructure.Interfaces
@@ -12,5 +13,9 @@ namespace UmetnickaDela.Infrastructure.Interfaces
     {
         Task<List<UmetnickoDelo>> FilterBySalaTema(MasterpieceFilterRequest request);
         Task<bool> AddMark(AddMarkRequest request);
+
+        Task<List<UserDelo>> GetMark (int idUser);
+        Task<CreateMasterpieceResponse> GetWithUserUnitAuditorium(int idUser);
+
     }
 }

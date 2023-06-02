@@ -11,6 +11,7 @@ using UmetnickaDela.Contracts.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.Xml;
 using UmetnickaDela.Contracts.Models.Masterpiece.Request;
+using UmetnickaDela.Contracts.Models.Masterpiece.Response;
 
 namespace UmetnickaDela.Infrastructure.Repositories
 {
@@ -29,6 +30,11 @@ namespace UmetnickaDela.Infrastructure.Repositories
         public async Task<bool> AddMark(AddMarkRequest request)
         {
             var userDelo = mapper.Map<UserDelo>(request);
+            var exist = await dataContext.userDela.Where(x => x.UserId == request.UserId).Where(x => x.DeloId == request.DeloId).FirstOrDefaultAsync();
+            if(exist != null)
+            {
+                return false;
+            }
             dataContext.userDela.Add(userDelo);
             var result = await dataContext.SaveChangesAsync();
             return result > 0;
@@ -42,6 +48,22 @@ namespace UmetnickaDela.Infrastructure.Repositories
             if(lista == null)
                 return await dataContext.umetnickaDela.ToListAsync();
             return lista;
+        }
+
+        public async Task<List<UserDelo>> GetMark(int id)
+        {
+            var mark = await dataContext.userDela.Where(x => x.UserId == id).ToListAsync();
+            if(mark == null)
+                return null;
+            return mark;
+        }
+
+        public async Task<CreateMasterpieceResponse> GetWithUserUnitAuditorium(int id)
+        {
+            var list =  await dataContext.umetnickaDela.Include(x => x.user).Where(x => x.slikarId == x.user.Id).Include(x => x.sala).Where(x => x.salaId == x.sala.Id).Include(x => x.tematskaCelina).Where(x => x.celinaId == x.tematskaCelina.Id).Where(x => x.Id == id).FirstOrDefaultAsync();
+            var mappedList = mapper.Map<CreateMasterpieceResponse>(list);
+            return mappedList;
+
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NBP_projekat.Mediator.Places;
 using NBP_projekat.Mediator.Users;
 using UmetnickaDela.Contracts.Models.Identity.Request;
 using UmetnickaDela.Data.Models;
@@ -56,6 +57,15 @@ namespace NBP_projekat.Controllers
             var lista = await role.Roles.ToListAsync();
             return Ok(lista);
 
+        }
+
+        [HttpGet("jury-list")]
+        public async Task<IActionResult> getJuries()
+        {
+            var result = await mediator.Send(new GetJuryListQuery());
+            if(!result.IsSucces)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.Data);
         }
              
     }

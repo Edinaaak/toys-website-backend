@@ -23,7 +23,7 @@ namespace NBP_projekat.Mediator.Masterpieces
 
         public async Task<Result<CreateMasterpieceResponse>> Handle(GetOneMasterpieceQuery request, CancellationToken cancellationToken)
         {
-            var piece = await unitOfWork.UmetnickoDelo.getById(request.id);
+            var piece = await unitOfWork.UmetnickoDelo.GetWithUserUnitAuditorium(request.id);
             if (piece == null)
             {
                 return new Result<CreateMasterpieceResponse>
@@ -36,7 +36,7 @@ namespace NBP_projekat.Mediator.Masterpieces
 
             return new Result<CreateMasterpieceResponse>
             {
-                Data = mapper.Map<CreateMasterpieceResponse>(piece)
+                Data = piece
             };
         }
     }

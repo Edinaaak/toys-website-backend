@@ -72,7 +72,7 @@ namespace NBP_projekat.Controllers
         {
             var result = await unitOfWork.UmetnickoDelo.AddMark(userDelo);
             if(!result)
-                return BadRequest("You can not add a mark because you rated it");
+                return BadRequest(new {error = "You already rated it"});
             return Ok(userDelo.Ocena);
         }
 
@@ -82,5 +82,16 @@ namespace NBP_projekat.Controllers
             return Ok(await context.celine.ToListAsync());
         }
 
+        [HttpGet("get-mark/{id}")]
+        public async Task<IActionResult> getMark(int id)
+        {
+            var result = await unitOfWork.UmetnickoDelo.GetMark(id);
+            if (result == null)
+                return BadRequest("You did not rate art paintings");
+            return Ok(result);
+
+        }
+
+       
     }
 }
