@@ -19,6 +19,7 @@ namespace NBP_projekat.Mapping
             CreateMap<CreateMasterpieceResponse, UmetnickoDelo>();
             CreateMap<UpdateMasterpieceRequest, UmetnickoDelo>();
            CreateMap<AddMarkRequest, UserDelo>();  
+            CreateMap<UmetnickoDelo, GetMasterpieceResponse>();
         }
     }
 }

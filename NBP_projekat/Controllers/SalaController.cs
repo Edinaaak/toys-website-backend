@@ -46,7 +46,7 @@ namespace NBP_projekat.Controllers
             return Ok(result.IsSucces);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSala (int id, UpdateSalaRequest request )
         {
             var result = await mediator.Send(new UpdateSalaCommand(id, request.Naziv));

@@ -27,10 +27,12 @@ namespace NBP_projekat.Mediator.Masterpieces
         {
 
             var lista = new List<UmetnickoDelo>();
-            if(request.Request.salaId.HasValue || request.Request.celinaId.HasValue || request.Request.salaId != null)
+           
+            if (request.Request.salaId.HasValue || request.Request.celinaId.HasValue || request.Request.salaId != null)
                 lista = await unitOfWork.UmetnickoDelo.FilterBySalaTema(request.Request);
             else
-            lista = await unitOfWork.UmetnickoDelo.GetAll();
+                lista = await unitOfWork.UmetnickoDelo.ApplyPaging(request.Request.currPage, request.Request.pageSize   );
+
             var mappedList = mapper.Map<IEnumerable<CreateMasterpieceResponse>>(lista);
             return new Result<IEnumerable<CreateMasterpieceResponse>>
             {

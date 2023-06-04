@@ -14,18 +14,20 @@ namespace UmetnickaDela.Infrastructure
     {
         private readonly DataContext context;
 
-        public UnitOfWork(DataContext context, ISalaRepository salaRepository, IMestoRepository mestoRepository, IUmetnickoDelo umetnickoDelo)
+        public UnitOfWork(DataContext context, ISalaRepository salaRepository, IMestoRepository mestoRepository, IUmetnickoDelo umetnickoDelo, IUserRepository userRepository)
         {
             this.context = context;
             SalaRepository = salaRepository;
             MestoRepository = mestoRepository;
             UmetnickoDelo = umetnickoDelo;
+            this.userRepository = userRepository;
         }
 
         public ISalaRepository SalaRepository { get;}
         public IMestoRepository MestoRepository { get;}
 
         public IUmetnickoDelo UmetnickoDelo { get;}
+        public IUserRepository userRepository { get;}
 
         public async Task<bool> CompleteAsync()
         {

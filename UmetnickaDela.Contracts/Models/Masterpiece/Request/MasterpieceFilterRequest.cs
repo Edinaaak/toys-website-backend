@@ -9,6 +9,10 @@ namespace UmetnickaDela.Contracts.Models.Masterpiece.Request
     public class MasterpieceFilterRequest
     {
         public int? celinaId { get; set; }
-        public int? salaId { get; set; } 
+        public int? salaId { get; set; }
+        public int currPage { get; set; }
+        public int pageSize { get; set; }
+        
+      
     }
 }

@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.Xml;
 using UmetnickaDela.Contracts.Models.Masterpiece.Request;
 using UmetnickaDela.Contracts.Models.Masterpiece.Response;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
 
 namespace UmetnickaDela.Infrastructure.Repositories
 {
@@ -41,6 +43,18 @@ namespace UmetnickaDela.Infrastructure.Repositories
 
         }
 
+       
+
+        public async Task<float> AverageRating(int idMasterpiece)
+        {
+            float ocena = await dataContext.userDela
+                .Where(x => x.DeloId == idMasterpiece)
+                .AverageAsync(x => x.Ocena);
+            if(ocena > 0) 
+                return ocena;
+            return 0;
+        }
+
         public async Task<List<UmetnickoDelo>> FilterBySalaTema(MasterpieceFilterRequest request)
         {
           
@@ -48,6 +62,17 @@ namespace UmetnickaDela.Infrastructure.Repositories
             if(lista == null)
                 return await dataContext.umetnickaDela.ToListAsync();
             return lista;
+        }
+
+        public async Task<List<UmetnickoDelo>> ApplyPaging(int currPage, int pageSize)
+        {
+            var query = (await dataContext.umetnickaDela.ToListAsync()).AsQueryable();
+            query = query.ApplyPaging(currPage, pageSize);
+            if (query == null)
+                return null;
+            var listToShow = mapper.Map<List<UmetnickoDelo>>(query.ToList());
+            return listToShow;
+
         }
 
         public async Task<List<UserDelo>> GetMark(int id)
@@ -58,12 +83,30 @@ namespace UmetnickaDela.Infrastructure.Repositories
             return mark;
         }
 
+        public async Task<List<UmetnickoDelo>> getMasterpieceByUser(int idUser)
+        {
+            var list = await dataContext.umetnickaDela.Where(x => x.slikarId == idUser).ToListAsync();
+            if (list == null)
+                return null;
+            return list;
+        }
+
         public async Task<CreateMasterpieceResponse> GetWithUserUnitAuditorium(int id)
         {
             var list =  await dataContext.umetnickaDela.Include(x => x.user).Where(x => x.slikarId == x.user.Id).Include(x => x.sala).Where(x => x.salaId == x.sala.Id).Include(x => x.tematskaCelina).Where(x => x.celinaId == x.tematskaCelina.Id).Where(x => x.Id == id).FirstOrDefaultAsync();
             var mappedList = mapper.Map<CreateMasterpieceResponse>(list);
             return mappedList;
 
+        }
+
+        public async Task<UmetnickoDelo> UpdateAuditorium(int id, int salaId)
+        {
+            var masterpiece = await dataContext.umetnickaDela.FindAsync(id);
+            if (masterpiece == null)
+                return null;
+            masterpiece.salaId = salaId;
+            await dataContext.SaveChangesAsync();
+            return masterpiece;
         }
     }
 }

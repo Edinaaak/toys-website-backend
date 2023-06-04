@@ -27,13 +27,15 @@ namespace UmetnickaDela.Data
                 .HasOne(bc => bc.User)
                 .WithMany(b => b.userDelo)
                 .HasForeignKey(bc => bc.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<UserDelo>()
                 .HasOne(bc => bc.UmetnickoDelo)
                 .WithMany(c => c.userDelo)
                 .HasForeignKey(bc => bc.DeloId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
 

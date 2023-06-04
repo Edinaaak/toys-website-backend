@@ -8,7 +8,9 @@ using System.Security.Claims;
 using System.Text;
 using UmetnickaDela.Contracts.Models.Identity.Request;
 using UmetnickaDela.Contracts.Models.Identity.Response;
+using UmetnickaDela.Contracts.Models.Masterpiece.Response;
 using UmetnickaDela.Data.Models;
+using UmetnickaDela.Infrastructure;
 
 namespace NBP_projekat.Controllers
 {
@@ -18,11 +20,13 @@ namespace NBP_projekat.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper mapper;
+        private readonly IUnitOfWork unitOfWork;
 
-        public AuthController(UserManager<User>  userManager, IMapper mapper)
+        public AuthController(UserManager<User>  userManager, IMapper mapper, IUnitOfWork unitOfWork)
         {
             this._userManager = userManager;
             this.mapper = mapper;
+            this.unitOfWork = unitOfWork;
         }
         [HttpPost]
         [Route("register")]
@@ -37,8 +41,12 @@ namespace NBP_projekat.Controllers
                 var user = mapper.Map<User>(request);
                 var result = await _userManager.CreateAsync(user, request.Password);
                 if (request.Role == 2)
+                {
                     await _userManager.AddToRoleAsync(user, "Slikar");
-                else if (request.Role == 3)
+                    user.EmailConfirmed = true;
+                    await _userManager.UpdateAsync(user);
+                }
+                else if (request.Role == 3) 
                     await _userManager.AddToRoleAsync(user, "Ziri");
                 if (!result.Succeeded)
                 {
@@ -68,6 +76,8 @@ namespace NBP_projekat.Controllers
                 return BadRequest();
             if(await _userManager.CheckPasswordAsync(user, request.Password))
             {
+                if(!user.EmailConfirmed)
+                    return BadRequest( new { error = "You are not accepted by the adminstrator"});
                 var signKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("78fUjkyzfLz56gTk"));
                 var authClaims = new List<Claim>
                 {
@@ -80,10 +90,29 @@ namespace NBP_projekat.Controllers
                     signingCredentials: new SigningCredentials(signKey, SecurityAlgorithms.HmacSha256)
                     );
                 var toReturn = new JwtSecurityTokenHandler().WriteToken(token);
+                var artUser = await unitOfWork.UmetnickoDelo.getMasterpieceByUser(user.Id);
+                var mappedArts = mapper.Map<List<GetMasterpieceResponse>>(artUser);
+                var role = await _userManager.GetRolesAsync(user);
+                foreach(var m in mappedArts)
+                {
+                    try
+                    {
+                        m.Ocena = await unitOfWork.UmetnickoDelo.AverageRating(m.Id);
+                    }
+                    catch(Exception ex)
+                    {
+                        m.Ocena = 0;
+                    }
+                }
                 var obj = new
                 {
+                    
                     expires = DateTime.Now.AddHours(1),
-                    token = toReturn
+                    token = toReturn,
+                    painter = user,
+                    dela = mappedArts,
+                    role = role
+
                 };
                 return Ok(obj);
 

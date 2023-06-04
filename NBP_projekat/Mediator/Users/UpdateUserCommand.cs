@@ -39,12 +39,7 @@ namespace NBP_projekat.Mediator.Users
                     IsSucces = false
                 };
 
-            else if (string.IsNullOrEmpty(request.request.Email))
-                return new Result<UserResponse>
-                {
-                    Errors = new List<string> { "Email is required" },
-                    IsSucces = false
-                };
+            
 
             else if (string.IsNullOrEmpty(request.request.NazivMesta))
                 return new Result<UserResponse>

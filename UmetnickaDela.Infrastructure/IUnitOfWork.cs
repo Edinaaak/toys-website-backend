@@ -12,6 +12,8 @@ namespace UmetnickaDela.Infrastructure
         ISalaRepository SalaRepository { get; }
         IMestoRepository MestoRepository { get; }
         IUmetnickoDelo UmetnickoDelo { get; }
+
+        IUserRepository userRepository { get; }
         Task<bool> CompleteAsync();
     }
 }

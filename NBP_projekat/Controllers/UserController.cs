@@ -41,7 +41,7 @@ namespace NBP_projekat.Controllers
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.IsSucces);
         }
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UpdateUserRequest request)
         {
             var result = await mediator.Send(new UpdateUserCommand (id, request));
@@ -66,6 +66,24 @@ namespace NBP_projekat.Controllers
             if(!result.IsSucces)
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.Data);
+        }
+
+        [HttpPut("accept/{id}")]
+        public async Task<IActionResult> acceptJury(int id)
+        {
+            var result = await mediator.Send( new AcceptUserCommand(id));
+            if(!result.IsSucces)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.IsSucces);
+        }
+
+        [HttpDelete("decline/{id}")]
+        public async Task<IActionResult> declineJury(int id)
+        {
+            var result = await mediator.Send( new DeclineUserCommand (id));
+            if(!result.IsSucces)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.IsSucces);
         }
              
     }

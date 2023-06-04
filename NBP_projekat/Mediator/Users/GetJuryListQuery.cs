@@ -24,8 +24,14 @@ namespace NBP_projekat.Mediator.Places
         public async Task<Result<IEnumerable<UserResponse>>> Handle(GetJuryListQuery request, CancellationToken cancellationToken)
         {
             var list = await userManager.GetUsersInRoleAsync("Ziri");
-            var mapped = mapper.Map<List<UserResponse>>(list);
-            if (list == null)
+            var juryList = new List<User>();
+            foreach(var user in list)
+            {
+                if (!user.EmailConfirmed)
+                    juryList.Add(user);
+            }
+            var mapped = mapper.Map<List<UserResponse>>(juryList);
+            if (juryList == null)
                 return new Result<IEnumerable<UserResponse>>
                 { Errors = new List<string> { "There are not juries" },
                     IsSucces = false

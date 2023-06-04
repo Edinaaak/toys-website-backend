@@ -10,7 +10,6 @@ namespace UmetnickaDela.Contracts.Models.Identity.Request
     {
         public string Ime { get; set; }
         public string Prezime { get; set; }
-        public string Email { get; set; }
         public string NazivMesta { get; set; }
         public string Ptt { get; set; }
     }

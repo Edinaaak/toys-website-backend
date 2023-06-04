@@ -12,10 +12,15 @@ namespace UmetnickaDela.Infrastructure.Interfaces
     public interface IUmetnickoDelo : IRepository<UmetnickoDelo>
     {
         Task<List<UmetnickoDelo>> FilterBySalaTema(MasterpieceFilterRequest request);
+        Task<List<UmetnickoDelo>> ApplyPaging(int currPage, int pageSize);
         Task<bool> AddMark(AddMarkRequest request);
 
         Task<List<UserDelo>> GetMark (int idUser);
         Task<CreateMasterpieceResponse> GetWithUserUnitAuditorium(int idUser);
+        Task<List<UmetnickoDelo>> getMasterpieceByUser (int idUser);
+        Task<float> AverageRating (int idMasterpiece);
+        Task<UmetnickoDelo> UpdateAuditorium(int id, int salaId);
+
 
     }
 }

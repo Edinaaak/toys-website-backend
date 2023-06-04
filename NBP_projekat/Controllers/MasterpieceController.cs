@@ -92,6 +92,22 @@ namespace NBP_projekat.Controllers
 
         }
 
+        [HttpGet("top-3")]
+        public async Task<IActionResult> getTopThree()
+        {
+            var result = await mediator.Send( new getTopThreeMasterpiecesQuery() );
+            return Ok(result.Data);
+        }
+
+        [HttpPut("update-masterpiece-auditorium")]
+        public async Task<IActionResult> updateAuditorium([FromBody] addSalaRequest request)
+        {
+            var result = await mediator.Send(new UpdateSalaCommand(request.Id, request.IdSala));
+            if (!result.IsSucces)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.Data);
+        }
+
        
     }
 }

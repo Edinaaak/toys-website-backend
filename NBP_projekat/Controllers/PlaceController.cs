@@ -44,7 +44,7 @@ namespace NBP_projekat.Controllers
             return Ok(result.IsSucces);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePlace(int id, CreatePlaceRequest request)
         {
             var result = await mediator.Send(new UpdatePlaceCommand(id, request));
