@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
+using NBP_projekat.Exceptions;
 using NBP_projekat.Mediator.Masterpieces;
 using System.Diagnostics;
 using UmetnickaDela.Contracts.Models.Masterpiece.Request;
@@ -29,7 +30,7 @@ namespace NBP_projekat.Controllers
         {
             var result = await mediator.Send(new GetAllMasterpiecesQuery(request));
             if (!result.IsSucces)
-                return BadRequest(result.Errors.FirstOrDefault());
+                throw new MasterpieceCustomException(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
         [HttpGet("{id}")]
@@ -37,7 +38,7 @@ namespace NBP_projekat.Controllers
         {
             var result = await mediator.Send(new GetOneMasterpieceQuery(id));
             if(!result.IsSucces)
-                return BadRequest(result.Errors.FirstOrDefault());
+                throw new MasterpieceCustomException(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
         [HttpPost]
@@ -45,7 +46,7 @@ namespace NBP_projekat.Controllers
         {
             var result = await mediator.Send(new CreateMasterpieceCommand(request));
             if (!result.IsSucces)
-                return BadRequest(result.Errors.FirstOrDefault());
+                throw new MasterpieceCustomException(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
 
@@ -54,7 +55,7 @@ namespace NBP_projekat.Controllers
         {
             var result = await mediator.Send(new DeleteMasterpieceCommand(id));
             if(!result.IsSucces)
-                return BadRequest(result.Errors.FirstOrDefault());
+                throw new MasterpieceCustomException(result.Errors.FirstOrDefault());
             return Ok(result.IsSucces);
         }
 
@@ -63,7 +64,7 @@ namespace NBP_projekat.Controllers
         {
             var result = await mediator.Send(new UpdateMasterpieceCommand(id, request));
             if(!result.IsSucces)
-                return BadRequest(result.Errors.FirstOrDefault());
+                throw new MasterpieceCustomException(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
 
@@ -72,7 +73,7 @@ namespace NBP_projekat.Controllers
         {
             var result = await unitOfWork.UmetnickoDelo.AddMark(userDelo);
             if(!result)
-                return BadRequest(new {error = "You already rated it"});
+                throw new MasterpieceCustomException("You already rated this art painting");
             return Ok(userDelo.Ocena);
         }
 
@@ -87,7 +88,7 @@ namespace NBP_projekat.Controllers
         {
             var result = await unitOfWork.UmetnickoDelo.GetMark(id);
             if (result == null)
-                return BadRequest("You did not rate art paintings");
+                throw new MasterpieceCustomException("You did not rate art paintings"); 
             return Ok(result);
 
         }
@@ -104,7 +105,7 @@ namespace NBP_projekat.Controllers
         {
             var result = await mediator.Send(new UpdateSalaCommand(request.Id, request.IdSala));
             if (!result.IsSucces)
-                return BadRequest(result.Errors.FirstOrDefault());
+                throw new MasterpieceCustomException(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
 

@@ -9,6 +9,7 @@ using UmetnickaDela.Data.Models;
 using UmetnickaDela.Infrastructure.Interfaces;
 using UmetnickaDela.Infrastructure.Repositories;
 using UmetnickaDela.Infrastructure;
+using NBP_projekat.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -89,6 +90,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseStaticFiles();
 
