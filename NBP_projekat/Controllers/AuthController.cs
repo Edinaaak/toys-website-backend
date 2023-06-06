@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using UmetnickaDela.Contracts.Models.Identity.Request;
@@ -73,7 +75,7 @@ namespace NBP_projekat.Controllers
 
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
-                return BadRequest();
+                return BadRequest( new { error = "User with this email does not exist"});
             if(await _userManager.CheckPasswordAsync(user, request.Password))
             {
                 if(!user.EmailConfirmed)
@@ -93,6 +95,7 @@ namespace NBP_projekat.Controllers
                 var artUser = await unitOfWork.UmetnickoDelo.getMasterpieceByUser(user.Id);
                 var mappedArts = mapper.Map<List<GetMasterpieceResponse>>(artUser);
                 var role = await _userManager.GetRolesAsync(user);
+                var mappedUser = mapper.Map<UserResponse>(user);
                 foreach(var m in mappedArts)
                 {
                     try
@@ -109,7 +112,7 @@ namespace NBP_projekat.Controllers
                     
                     expires = DateTime.Now.AddHours(1),
                     token = toReturn,
-                    painter = user,
+                    painter = mappedUser,
                     dela = mappedArts,
                     role = role
 
@@ -119,11 +122,45 @@ namespace NBP_projekat.Controllers
             }
             else
             {
-                return BadRequest(new {msg = "Username or password is not corrected"});
+                return BadRequest(new {error = "Password is not correct"});
             }
         }
 
+        
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> forgotPassword (string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                return BadRequest(new { error = "User with this email does not exist" });
+            var tokenReset = await _userManager.GeneratePasswordResetTokenAsync(user);
+            string to = user.Email;
+            string from = "softnalog@gmail.com";
+            MailMessage message = new MailMessage(from, to);
+            string mailbody = $"Hi {user.Ime}, \n" + Environment.NewLine + $"Click here to change your password: http://localhost:4200/change-password/{user.SecurityStamp}";
+            message.Body = mailbody; 
+            message.BodyEncoding = Encoding.UTF8;
+            message.IsBodyHtml= true;
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            NetworkCredential basicCredential = new NetworkCredential("softnalog@gmail.com", "jragifaviyjzvdcf");
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.Credentials = basicCredential;
+            try
+            {
+                client.Send(message);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
 
+            return Ok(true);
+            
+
+
+
+        }
         
     }
 }

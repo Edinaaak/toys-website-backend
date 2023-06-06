@@ -17,6 +17,7 @@ namespace UmetnickaDela.Contracts.Models.Masterpiece.Response
         public float Visina { get; set; }
         public float Sirina { get; set; }
         public string Putanja { get; set; }
+        public float Ocena { get; set; }
 
         public UmetnickaDela.Data.Models.Sala sala { get; set; }
         public UserResponse user { get; set; }
