@@ -11,6 +11,7 @@ namespace UmetnickaDela.Data.Models
     public class User : IdentityUser<int>
     {
        
+       
         [Required]
         [MaxLength(10)]
         public string Ime { get; set; }
@@ -22,6 +23,7 @@ namespace UmetnickaDela.Data.Models
         public string NazivMesta { get; set; }
         public string Ptt { get; set; }
         public List<UserDelo> userDelo { get; set; }
+        
 
 
     }

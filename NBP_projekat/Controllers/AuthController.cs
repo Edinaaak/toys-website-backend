@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,7 +25,7 @@ namespace NBP_projekat.Controllers
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
 
-        public AuthController(UserManager<User>  userManager, IMapper mapper, IUnitOfWork unitOfWork)
+        public AuthController(UserManager<User> userManager, IMapper mapper, IUnitOfWork unitOfWork)
         {
             this._userManager = userManager;
             this.mapper = mapper;
@@ -34,7 +35,7 @@ namespace NBP_projekat.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -48,7 +49,7 @@ namespace NBP_projekat.Controllers
                     user.EmailConfirmed = true;
                     await _userManager.UpdateAsync(user);
                 }
-                else if (request.Role == 3) 
+                else if (request.Role == 3)
                     await _userManager.AddToRoleAsync(user, "Ziri");
                 if (!result.Succeeded)
                 {
@@ -66,20 +67,20 @@ namespace NBP_projekat.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody]LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            if(!ModelState.IsValid) 
-            { 
+            if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
             }
 
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
-                return BadRequest( new { error = "User with this email does not exist"});
-            if(await _userManager.CheckPasswordAsync(user, request.Password))
+                return BadRequest(new { error = "User with this email does not exist" });
+            if (await _userManager.CheckPasswordAsync(user, request.Password))
             {
-                if(!user.EmailConfirmed)
-                    return BadRequest( new { error = "You are not accepted by the adminstrator"});
+                if (!user.EmailConfirmed)
+                    return BadRequest(new { error = "You are not accepted by the adminstrator" });
                 var signKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("78fUjkyzfLz56gTk"));
                 var authClaims = new List<Claim>
                 {
@@ -96,20 +97,20 @@ namespace NBP_projekat.Controllers
                 var mappedArts = mapper.Map<List<GetMasterpieceResponse>>(artUser);
                 var role = await _userManager.GetRolesAsync(user);
                 var mappedUser = mapper.Map<UserResponse>(user);
-                foreach(var m in mappedArts)
+                foreach (var m in mappedArts)
                 {
                     try
                     {
                         m.Ocena = await unitOfWork.UmetnickoDelo.AverageRating(m.Id);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         m.Ocena = 0;
                     }
                 }
                 var obj = new
                 {
-                    
+
                     expires = DateTime.Now.AddHours(1),
                     token = toReturn,
                     painter = mappedUser,
@@ -122,25 +123,24 @@ namespace NBP_projekat.Controllers
             }
             else
             {
-                return BadRequest(new {error = "Password is not correct"});
+                return BadRequest(new { error = "Password is not correct" });
             }
         }
 
-        
+
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> forgotPassword (string email)
+        public async Task<IActionResult> forgotPassword(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-                if (user == null)
+            if (user == null)
                 return BadRequest(new { error = "User with this email does not exist" });
-            var tokenReset = await _userManager.GeneratePasswordResetTokenAsync(user);
             string to = user.Email;
             string from = "softnalog@gmail.com";
             MailMessage message = new MailMessage(from, to);
             string mailbody = $"Hi {user.Ime}, \n" + Environment.NewLine + $"Click here to change your password: http://localhost:4200/change-password/{user.SecurityStamp}";
-            message.Body = mailbody; 
+            message.Body = mailbody;
             message.BodyEncoding = Encoding.UTF8;
-            message.IsBodyHtml= true;
+            message.IsBodyHtml = true;
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             NetworkCredential basicCredential = new NetworkCredential("softnalog@gmail.com", "jragifaviyjzvdcf");
             client.EnableSsl = true;
@@ -150,17 +150,38 @@ namespace NBP_projekat.Controllers
             {
                 client.Send(message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
 
             return Ok(true);
-            
+
 
 
 
         }
+
+        [HttpPost("check-token")]
+        public async Task<IActionResult> checkToken([FromBody] string token)
+        {
+            var user = await _userManager.Users.Where( x => x.SecurityStamp == token ).FirstOrDefaultAsync();
+            if (user == null)
+                return BadRequest(new { error = "User with this token does not exist" });
+            return Ok(true);
+                
+        }
+
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> resetPassword(ResetPasswordRequest request)
+        {
+            var user =  await _userManager.Users.Where(x => x.SecurityStamp == request.token).FirstOrDefaultAsync();
+            var tokenReset = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await  _userManager.ResetPasswordAsync(user, tokenReset, request.newPassword);
+            return Ok(result);
+        }
+
         
     }
 }
