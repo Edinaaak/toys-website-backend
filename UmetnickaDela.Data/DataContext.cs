@@ -21,21 +21,21 @@ namespace UmetnickaDela.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<UserDelo>()
-         .HasKey(x => new { x.UserId, x.DeloId });
+         .HasKey(x => x.Id);
 
             modelBuilder.Entity<UserDelo>()
                 .HasOne(bc => bc.User)
                 .WithMany(b => b.userDelo)
                 .HasForeignKey(bc => bc.UserId)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<UserDelo>()
                 .HasOne(bc => bc.UmetnickoDelo)
                 .WithMany(c => c.userDelo)
                 .HasForeignKey(bc => bc.DeloId)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
         }
 

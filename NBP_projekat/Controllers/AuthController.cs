@@ -2,9 +2,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.IdentityModel.Tokens;
+using NBP_projekat.Exceptions;
 using NBP_projekat.Mediator.Users;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
@@ -43,12 +45,12 @@ namespace NBP_projekat.Controllers
             string to = user.Email;
             string from = "softnalog@gmail.com";
             MailMessage message = new MailMessage(from, to);
-            string mailbody = $"Hi {user.Ime}, \n" + Environment.NewLine + $"Click here to change your password: http://localhost:4200/change-password/{user.SecurityStamp}";
+            string mailbody = $"Hi {user.Ime}, <br>" + Environment.NewLine + $"Click here to change your password: http://elmaaa-001-site1.ftempurl.com/change-password/{user.SecurityStamp}";
             message.Body = mailbody;
             message.BodyEncoding = Encoding.UTF8;
             message.IsBodyHtml = true;
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
-            NetworkCredential basicCredential = new NetworkCredential("softnalog@gmail.com", "jragifaviyjzvdcf");
+            NetworkCredential basicCredential = new NetworkCredential("softnalog@gmail.com", "snbastnzdhnmddvy");
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.Credentials = basicCredential;
@@ -107,7 +109,7 @@ namespace NBP_projekat.Controllers
             
             var result = await mediator.Send(new UserLoginCommand(request));
             if(!result.IsSucces)
-                return BadRequest(result.Errors.FirstOrDefault());
+                throw new LoginCustomException(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
 

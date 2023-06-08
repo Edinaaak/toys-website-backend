@@ -19,7 +19,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<UmetnickaDela.Data.DataContext>(options => options.UseSqlServer(@"Server=EDINA;Database=UmetnickaDela;Trusted_Connection=yes;"));
+builder.Services.AddDbContext<UmetnickaDela.Data.DataContext>(options => options.UseSqlServer(@"Data Source=SQL8003.site4now.net;Initial Catalog=db_a9a911_naprednebaze;User Id=db_a9a911_naprednebaze_admin;Password=Edinaa1!;"));
 builder.Services.AddIdentity<User, AppRole>()
     .AddRoles<AppRole>()
     .AddEntityFrameworkStores<DataContext>()

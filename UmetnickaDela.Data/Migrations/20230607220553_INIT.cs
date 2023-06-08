@@ -4,7 +4,7 @@
 
 namespace UmetnickaDela.Data.Migrations
 {
-    public partial class addCascade1 : Migration
+    public partial class INIT : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

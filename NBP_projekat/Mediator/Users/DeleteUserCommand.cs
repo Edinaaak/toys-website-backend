@@ -32,8 +32,8 @@ namespace NBP_projekat.Mediator.Users
                     IsSucces = false
                 };
             }
-            await userManager.DeleteAsync(user);
-            await unitOfWork.CompleteAsync();
+            var result = await unitOfWork.userRepository.Delete(user);
+            
             return new Result<bool>
             {
                 IsSucces = true

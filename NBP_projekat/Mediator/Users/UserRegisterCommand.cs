@@ -21,6 +21,12 @@ namespace NBP_projekat.Mediator.Users
         public async Task<Result<UserResponse>> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
         {
             var result =  await unitOfWork.userRepository.register(request.request);
+            if (!string.IsNullOrEmpty(result.Error))
+                return new Result<UserResponse>
+                {
+                    Errors = new List<string> { result.Error },
+                    IsSucces = false
+                };
             if(result == null)
             {
                 return new Result<UserResponse>

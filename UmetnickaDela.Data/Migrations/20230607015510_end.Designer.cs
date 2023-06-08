@@ -12,8 +12,8 @@ using UmetnickaDela.Data;
 namespace UmetnickaDela.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230602134124_addCascade")]
-    partial class addCascade
+    [Migration("20230607015510_end")]
+    partial class end
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -354,18 +354,28 @@ namespace UmetnickaDela.Data.Migrations
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.UserDelo", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("DeloId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("DeloId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<float>("Ocena")
                         .HasColumnType("real");
 
-                    b.HasKey("UserId", "DeloId");
+                    b.Property<int?>("UserId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("DeloId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("userDela");
                 });
@@ -460,13 +470,13 @@ namespace UmetnickaDela.Data.Migrations
                     b.HasOne("UmetnickaDela.Data.Models.UmetnickoDelo", "UmetnickoDelo")
                         .WithMany("userDelo")
                         .HasForeignKey("DeloId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.HasOne("UmetnickaDela.Data.Models.User", "User")
                         .WithMany("userDelo")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.Navigation("UmetnickoDelo");

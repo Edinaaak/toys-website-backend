@@ -16,5 +16,6 @@ namespace UmetnickaDela.Contracts.Models.Identity.Response
         public string NazivMesta { get; set; }
         public string Email { get; set; }
         public string Ptt { get; set; }
+        public string Error { get; set; }
     }
 }

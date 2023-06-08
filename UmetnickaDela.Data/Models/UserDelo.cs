@@ -5,19 +5,25 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UmetnickaDela.Data.Models
 {
     public class UserDelo
     {
-        
-        [ForeignKey("UserId")]
-        public int UserId { get; set; }
-        public User User { get; set; }
-
-        [ForeignKey("DeloId")]
-        public int DeloId { get; set; }
-        public UmetnickoDelo UmetnickoDelo { get; set; }
+        [Key]
+        public int Id { get; set; }
+       
+        [ForeignKey(nameof(User))]
+        [AllowNull]
+        public int? UserId { get; set; }
+        [AllowNull]
+        public User? User { get; set; }
+        [ForeignKey(nameof(UmetnickoDelo))]
+        [AllowNull]
+        public int? DeloId { get; set; }
+        [AllowNull]
+        public UmetnickoDelo? UmetnickoDelo { get; set; }
 
         public float Ocena { get; set; }
     }
