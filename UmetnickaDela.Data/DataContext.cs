@@ -47,7 +47,9 @@ namespace UmetnickaDela.Data
         public DbSet<TematskaCelina> celine { get; set; }
         public DbSet<UmetnickoDelo> umetnickaDela { get; set; }
         public DbSet<UserDelo> userDela { get; set; }
+        public DbSet<Rasprodaja> rasprodaja { get; set; }
 
+        public DbSet<Korpa> korpe { get; set; }
     }
 
 }

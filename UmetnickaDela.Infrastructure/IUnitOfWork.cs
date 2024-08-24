@@ -14,6 +14,9 @@ namespace UmetnickaDela.Infrastructure
         IUmetnickoDelo UmetnickoDelo { get; }
 
         IUserRepository userRepository { get; }
+        ITematskaCelina TematskaCelina { get; }
+        IRasprodajaRepository RasprodajaRepository { get; }
+        IKorpeRepository KorpeRepository { get; }
         Task<bool> CompleteAsync();
     }
 }

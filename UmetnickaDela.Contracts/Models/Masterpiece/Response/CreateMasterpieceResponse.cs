@@ -14,8 +14,8 @@ namespace UmetnickaDela.Contracts.Models.Masterpiece.Response
     {
         public int Id { get; set; }
         public string Naziv { get; set; }
-        public float Visina { get; set; }
-        public float Sirina { get; set; }
+        public decimal Cena { get; set; }
+        public string Opis { get; set; }
         public string Putanja { get; set; }
         public float Ocena { get; set; }
 

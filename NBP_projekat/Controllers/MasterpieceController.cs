@@ -109,6 +109,12 @@ namespace NBP_projekat.Controllers
             return Ok(result.Data);
         }
 
+        [HttpGet("get-reviews/{id}")]
+        public async Task<IActionResult> getReviews(int id)
+        {
+            var result = await unitOfWork.UmetnickoDelo.GetReviews(id);
+            return Ok(result);
+        }
        
     }
 }

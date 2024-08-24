@@ -15,18 +15,18 @@ namespace UmetnickaDela.Data.Models
         [Key]
         public int Id { get; set; }
         public string Naziv { get; set; }
-        public float Visina { get; set; }
-        public float Sirina { get; set; }
+        public decimal Cena { get; set; }
+        public string Opis { get; set; }
         public string Putanja { get; set; }
 
         public Sala? sala { get; set; }
-        public User user { get; set; }
-        public TematskaCelina tematskaCelina { get; set; }
+        public User? user { get; set; }
+        public TematskaCelina? tematskaCelina { get; set; }
         [ForeignKey("sala")]
         [AllowNull]
         public int? salaId { get; set; } = 15;
         [ForeignKey("user")]
-        public int slikarId { get; set; }
+        public int? slikarId { get; set; }
         [ForeignKey("tematskaCelina")]
         public int? celinaId { get; set; }
         public List<UserDelo> userDelo { get; set; }

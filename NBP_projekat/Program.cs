@@ -10,6 +10,7 @@ using UmetnickaDela.Infrastructure.Interfaces;
 using UmetnickaDela.Infrastructure.Repositories;
 using UmetnickaDela.Infrastructure;
 using NBP_projekat.Middleware;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<UmetnickaDela.Data.DataContext>(options => options.UseSqlServer(@"Data Source=SQL8003.site4now.net;Initial Catalog=db_a9a911_naprednebaze;User Id=db_a9a911_naprednebaze_admin;Password=Edinaa1!;"));
+builder.Services.AddDbContext<UmetnickaDela.Data.DataContext>(options => options.UseSqlServer(@"server=edina;database=elma_shop;trusted_connection=true;encrypt=false;"));
 builder.Services.AddIdentity<User, AppRole>()
     .AddRoles<AppRole>()
     .AddEntityFrameworkStores<DataContext>()
@@ -30,7 +31,11 @@ builder.Services.AddScoped<ISalaRepository, SalaRepository>();
 builder.Services.AddScoped<IMestoRepository, MestoRepository>();
 builder.Services.AddScoped<IUmetnickoDelo, UmetnickoDeloRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITematskaCelina, TematskaCelinaRepository>();
+builder.Services.AddScoped<IRasprodajaRepository, RasprodajaRepository>();
+builder.Services.AddScoped<IKorpeRepository, KorpeRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(Program)));
 
 builder.Services.AddAuthentication(options =>
@@ -81,6 +86,9 @@ using (var serviceScope = app.Services.CreateScope())
     }
 
 }
+
+
+ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

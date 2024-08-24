@@ -10,6 +10,6 @@ namespace UmetnickaDela.Contracts.Models.Sala.Request
     {
         public string Naziv { get; set; }
         public double Povrsina { get; set; }
-        public int MestoId { get; set; }
+        public int? MestoId { get; set; }
     }
 }

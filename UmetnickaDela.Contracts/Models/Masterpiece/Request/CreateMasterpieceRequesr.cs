@@ -13,8 +13,8 @@ namespace UmetnickaDela.Contracts.Models.Masterpiece.Request
     {
        
         public string Naziv { get; set; }
-        public float Visina { get; set; }
-        public float Sirina { get; set; }
+        public decimal Cena { get; set; }
+        public string Opis { get; set; }
         public IFormFile Putanja { get; set; }
       
         public int slikarId { get; set; }

@@ -21,6 +21,7 @@ namespace UmetnickaDela.Infrastructure.Interfaces
         Task<float> AverageRating (int idMasterpiece);
         Task<UmetnickoDelo> UpdateAuditorium(int id, int salaId);
 
+        Task<GetReviewsResponse> GetReviews (int deloId);
 
     }
 }

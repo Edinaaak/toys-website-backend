@@ -34,7 +34,7 @@ namespace NBP_projekat.Mediator.Sales
             {
                 Naziv = request.salaRequest.Naziv,
                 Povrsina = request.salaRequest.Povrsina,
-                MestoId = request.salaRequest.MestoId
+                MestoId = null
 
             };
             await unitOfWork.SalaRepository.Add(newSala);

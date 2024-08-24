@@ -10,12 +10,16 @@ namespace UmetnickaDela.Contracts.Extensions
     public static class MasterpieceExtension
     {
         //query object da sadrzi sve ono za sta zelimo da kreiramo upit
-        public static IQueryable<UmetnickoDelo> FilterBySalaTema(this IQueryable<UmetnickoDelo> query, int? salaID, int? temaId)
+        public static IQueryable<UmetnickoDelo> FilterBySalaTema(this IQueryable<UmetnickoDelo> query, int? salaID, int? temaId, decimal? cenaOd)
         {
             if(salaID.HasValue || salaID != null)
                 query = query.Where(x => x.salaId == salaID);
             if(temaId.HasValue)
                 query = query.Where(x => x.celinaId == temaId);
+            if(cenaOd.HasValue && cenaOd == 41)
+                query = query.Where(x => x.Cena >= cenaOd);
+            else if(cenaOd.HasValue)
+                query = query.Where(x => x.Cena <= cenaOd);
             return query;
         }
             

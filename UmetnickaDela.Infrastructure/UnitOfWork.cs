@@ -14,13 +14,16 @@ namespace UmetnickaDela.Infrastructure
     {
         private readonly DataContext context;
 
-        public UnitOfWork(DataContext context, ISalaRepository salaRepository, IMestoRepository mestoRepository, IUmetnickoDelo umetnickoDelo, IUserRepository userRepository)
+        public UnitOfWork(DataContext context, ISalaRepository salaRepository, IMestoRepository mestoRepository, IUmetnickoDelo umetnickoDelo, IUserRepository userRepository, ITematskaCelina tematskaCelina, IRasprodajaRepository rasprodajaRepository, IKorpeRepository korpeRepository)
         {
             this.context = context;
             SalaRepository = salaRepository;
             MestoRepository = mestoRepository;
             UmetnickoDelo = umetnickoDelo;
             this.userRepository = userRepository;
+            TematskaCelina = tematskaCelina;
+            RasprodajaRepository = rasprodajaRepository;
+            KorpeRepository = korpeRepository;
         }
 
         public ISalaRepository SalaRepository { get;}
@@ -28,6 +31,12 @@ namespace UmetnickaDela.Infrastructure
 
         public IUmetnickoDelo UmetnickoDelo { get;}
         public IUserRepository userRepository { get;}
+
+        public ITematskaCelina TematskaCelina { get;}
+
+        public IRasprodajaRepository RasprodajaRepository { get;}
+
+        public IKorpeRepository KorpeRepository { get;}
 
         public async Task<bool> CompleteAsync()
         {

@@ -58,7 +58,7 @@ namespace UmetnickaDela.Infrastructure.Repositories
         public async Task<List<UmetnickoDelo>> FilterBySalaTema(MasterpieceFilterRequest request)
         {
           
-            var lista = await dataContext.umetnickaDela.FilterBySalaTema(request.salaId, request.celinaId).ToListAsync();
+            var lista = await dataContext.umetnickaDela.FilterBySalaTema(request.salaId, request.celinaId, request.cenaOd).ToListAsync();
             if(lista == null)
                 return await dataContext.umetnickaDela.ToListAsync();
             return lista;
@@ -107,6 +107,37 @@ namespace UmetnickaDela.Infrastructure.Repositories
             masterpiece.salaId = salaId;
             await dataContext.SaveChangesAsync();
             return masterpiece;
+        }
+
+        public async Task<GetReviewsResponse> GetReviews(int deloId)
+        {
+            var results = await dataContext.userDela.Where(x => x.DeloId == deloId).ToListAsync();
+            GetReviewsResponse getReviews = new GetReviewsResponse();
+            foreach (var item in results)
+            {
+                if(item.Ocena == 1)
+                {
+                    getReviews.ReviewsForOne++;
+                }
+                else if(item.Ocena == 2)
+                {
+                    getReviews.ReviewsForTwo++;
+                }
+                else if(item.Ocena == 3)
+                {
+                    getReviews.ReviewsForThree++;
+                }
+                else if(item.Ocena == 4)
+                {
+                    getReviews.ReviewsForFour++;
+                }
+                else if(item.Ocena == 5)
+                {
+                    getReviews.ReviewsForFive++;
+                }   
+            }
+            getReviews.TotalReviews = results.Count;
+            return getReviews;
         }
     }
 }

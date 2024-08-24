@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using UmetnickaDela.Contracts.Models.Identity.Request;
 using UmetnickaDela.Contracts.Models.Identity.Response;
+using UmetnickaDela.Contracts.Models.Korpa.Request;
 using UmetnickaDela.Contracts.Models.Masterpiece.Request;
 using UmetnickaDela.Contracts.Models.Masterpiece.Response;
+using UmetnickaDela.Contracts.Models.Rasprodaja.Requests;
 using UmetnickaDela.Data.Models;
 
 namespace NBP_projekat.Mapping
@@ -20,6 +22,10 @@ namespace NBP_projekat.Mapping
             CreateMap<UpdateMasterpieceRequest, UmetnickoDelo>();
            CreateMap<AddMarkRequest, UserDelo>();  
             CreateMap<UmetnickoDelo, GetMasterpieceResponse>();
+            CreateMap<UmetnickoDelo, RasprodajaRequestCreateDTO>();
+            CreateMap<RasprodajaRequestCreateDTO, UmetnickoDelo>();
+            CreateMap<Korpa, AddKorpaRequest>();
+            CreateMap<AddKorpaRequest, Korpa>();
         }
     }
 }

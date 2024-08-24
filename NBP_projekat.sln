@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBP_projekat", "NBP_projeka
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UmetnickaDela.Data", "UmetnickaDela.Data\UmetnickaDela.Data.csproj", "{6AA6F4AB-2207-4B02-A1D2-B3B73DA7E531}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UmetnickaDela.Infrastructure", "UmetnickaDela.Infrastructure\UmetnickaDela.Infrastructure.csproj", "{F5555B61-D395-4135-90DB-7800940B3073}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UmetnickaDela.Infrastructure", "UmetnickaDela.Infrastructure\UmetnickaDela.Infrastructure.csproj", "{F5555B61-D395-4135-90DB-7800940B3073}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UmetnickaDela.Contracts", "UmetnickaDela.Contracts\UmetnickaDela.Contracts.csproj", "{6ACF54DC-33AC-4C2E-A1C7-C5C2D3B2C0C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UmetnickaDela.Contracts", "UmetnickaDela.Contracts\UmetnickaDela.Contracts.csproj", "{6ACF54DC-33AC-4C2E-A1C7-C5C2D3B2C0C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

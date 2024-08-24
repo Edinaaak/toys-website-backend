@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UmetnickaDela.Data;
 
@@ -11,9 +12,10 @@ using UmetnickaDela.Data;
 namespace UmetnickaDela.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240804230039_add-DBSET")]
+    partial class addDBSET
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,36 +155,6 @@ namespace UmetnickaDela.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-                });
-
-            modelBuilder.Entity("UmetnickaDela.Data.Models.Korpa", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Condition")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("DeloId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeloId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("korpe");
                 });
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.Mesto", b =>
@@ -482,21 +454,6 @@ namespace UmetnickaDela.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("UmetnickaDela.Data.Models.Korpa", b =>
-                {
-                    b.HasOne("UmetnickaDela.Data.Models.UmetnickoDelo", "UmetnickoDelo")
-                        .WithMany()
-                        .HasForeignKey("DeloId");
-
-                    b.HasOne("UmetnickaDela.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("UmetnickoDelo");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.Rasprodaja", b =>

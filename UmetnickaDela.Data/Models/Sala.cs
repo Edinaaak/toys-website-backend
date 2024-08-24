@@ -15,10 +15,10 @@ namespace UmetnickaDela.Data.Models
         public string Naziv { get; set; }
         public double Povrsina { get; set; }
 
-        public Mesto mesto { get; set; }
+        public Mesto? mesto { get; set; }
 
         [ForeignKey("mesto")]
-        public int MestoId { get; set; }
+        public int? MestoId { get; set; }
 
         
     }
