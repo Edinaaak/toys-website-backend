@@ -39,6 +39,14 @@ namespace UmetnickaDela.Infrastructure.Repositories
                 return true;
             return false;
         }
+
+        public async Task<bool> DeleteComment(int id)
+        {
+            var comment = await context.comments.FindAsync(id);
+            context.comments.Remove(comment);
+            var result = await context.SaveChangesAsync();
+            return result > 0;
+        }
     }
     
 }

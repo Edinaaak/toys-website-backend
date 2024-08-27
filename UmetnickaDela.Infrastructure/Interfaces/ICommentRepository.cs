@@ -13,5 +13,6 @@ namespace UmetnickaDela.Infrastructure.Interfaces
 
         Task<List<Comments>> GetCommentsWithInclude(int productId);
         Task<bool> AddComment(AddCommentRequest comment);
+        Task<bool> DeleteComment(int id);
     }
 }

@@ -37,6 +37,10 @@ namespace UmetnickaDela.Data
                 .IsRequired()
                 .OnDelete(DeleteBehavior.SetNull);
 
+        
+
+
+
         }
 
 

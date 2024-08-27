@@ -15,5 +15,6 @@ namespace UmetnickaDela.Infrastructure.Interfaces
         Task<bool> AddProizvodToKorpa(AddKorpaRequest addKorpaRequest);
         Task<bool> DeleteKopra(int korpaId);
         Task<bool> ChangeQuantity(int korpaId, int quantity);
+        Task<bool> IsprazniKorpu(int userId);
     }
 }

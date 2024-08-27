@@ -187,7 +187,7 @@ namespace UmetnickaDela.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("comments");
+                    b.ToTable("comments", (string)null);
                 });
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.Korpa", b =>
@@ -217,7 +217,7 @@ namespace UmetnickaDela.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("korpe");
+                    b.ToTable("korpe", (string)null);
                 });
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.Mesto", b =>
@@ -238,7 +238,7 @@ namespace UmetnickaDela.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("mesta");
+                    b.ToTable("mesta", (string)null);
                 });
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.Rasprodaja", b =>
@@ -262,7 +262,7 @@ namespace UmetnickaDela.Data.Migrations
 
                     b.HasIndex("UmetnickoDeloId");
 
-                    b.ToTable("rasprodaja");
+                    b.ToTable("rasprodaja", (string)null);
                 });
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.Sala", b =>
@@ -287,7 +287,7 @@ namespace UmetnickaDela.Data.Migrations
 
                     b.HasIndex("MestoId");
 
-                    b.ToTable("sale");
+                    b.ToTable("sale", (string)null);
                 });
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.TematskaCelina", b =>
@@ -304,7 +304,7 @@ namespace UmetnickaDela.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("celine");
+                    b.ToTable("celine", (string)null);
                 });
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.UmetnickoDelo", b =>
@@ -347,7 +347,7 @@ namespace UmetnickaDela.Data.Migrations
 
                     b.HasIndex("slikarId");
 
-                    b.ToTable("umetnickaDela");
+                    b.ToTable("umetnickaDela", (string)null);
                 });
 
             modelBuilder.Entity("UmetnickaDela.Data.Models.User", b =>
@@ -465,7 +465,7 @@ namespace UmetnickaDela.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("userDela");
+                    b.ToTable("userDela", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

@@ -58,5 +58,14 @@ namespace NBP_projekat.Controllers
             var result = await unitOfWork.CommentRepository.GetCommentsWithInclude(id);
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var result = await unitOfWork.CommentRepository.DeleteComment(id);
+            if (result)
+                return Ok();
+            return BadRequest();
+        }
     }
 }

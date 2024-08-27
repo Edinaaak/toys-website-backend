@@ -23,7 +23,7 @@ namespace NBP_projekat.Mediator.Users
 
         public async Task<Result<bool>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var user = await userManager.FindByIdAsync(request.id.ToString());
+                var user = await userManager.FindByIdAsync(request.id.ToString());
             if (user == null)
             {
                 return new Result<bool>
@@ -32,7 +32,8 @@ namespace NBP_projekat.Mediator.Users
                     IsSucces = false
                 };
             }
-            var result = await unitOfWork.userRepository.Delete(user);
+            var result = await userManager.DeleteAsync(user);
+            await unitOfWork.CompleteAsync();
             
             return new Result<bool>
             {

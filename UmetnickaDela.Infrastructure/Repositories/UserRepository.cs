@@ -138,13 +138,13 @@ namespace UmetnickaDela.Infrastructure.Repositories
             var result = await userManager.CreateAsync(user, request.Password);
             if(request.Role == 2)
             {
-                await userManager.AddToRoleAsync(user, "Slikar");
+                await userManager.AddToRoleAsync(user, "User");
                 user.EmailConfirmed = true;
                 await userManager.UpdateAsync(user);
             }
             else if(request.Role == 3)
             {
-                await userManager.AddToRoleAsync(user, "Ziri");
+                await userManager.AddToRoleAsync(user, "Moderator");
             }
             if(!result.Succeeded)
             {

@@ -42,5 +42,12 @@ namespace NBP_projekat.Controllers
             var result = await unitOfWork.KorpeRepository.ChangeQuantity(updateKorpaRequest.Id, updateKorpaRequest.Quantity);
             return Ok(result);
         }
+
+        [HttpDelete("deleteFromCart/{id}")]
+        public async Task<IActionResult> DeleteProductsFromCart(int id)
+        {
+            var result = await unitOfWork.KorpeRepository.IsprazniKorpu(id);
+            return Ok(result);
+        }
     }
 }
