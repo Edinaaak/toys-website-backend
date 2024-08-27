@@ -50,6 +50,7 @@ namespace UmetnickaDela.Data
         public DbSet<Rasprodaja> rasprodaja { get; set; }
 
         public DbSet<Korpa> korpe { get; set; }
+        public DbSet<Comments> comments { get; set; }
     }
 
 }

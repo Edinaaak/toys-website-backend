@@ -14,7 +14,7 @@ namespace UmetnickaDela.Infrastructure
     {
         private readonly DataContext context;
 
-        public UnitOfWork(DataContext context, ISalaRepository salaRepository, IMestoRepository mestoRepository, IUmetnickoDelo umetnickoDelo, IUserRepository userRepository, ITematskaCelina tematskaCelina, IRasprodajaRepository rasprodajaRepository, IKorpeRepository korpeRepository)
+        public UnitOfWork(DataContext context, ISalaRepository salaRepository, IMestoRepository mestoRepository, IUmetnickoDelo umetnickoDelo, IUserRepository userRepository, ITematskaCelina tematskaCelina, IRasprodajaRepository rasprodajaRepository, IKorpeRepository korpeRepository, ICommentRepository commentRepository)
         {
             this.context = context;
             SalaRepository = salaRepository;
@@ -24,6 +24,7 @@ namespace UmetnickaDela.Infrastructure
             TematskaCelina = tematskaCelina;
             RasprodajaRepository = rasprodajaRepository;
             KorpeRepository = korpeRepository;
+            CommentRepository = commentRepository;
         }
 
         public ISalaRepository SalaRepository { get;}
@@ -37,6 +38,7 @@ namespace UmetnickaDela.Infrastructure
         public IRasprodajaRepository RasprodajaRepository { get;}
 
         public IKorpeRepository KorpeRepository { get;}
+        public ICommentRepository CommentRepository { get; }
 
         public async Task<bool> CompleteAsync()
         {

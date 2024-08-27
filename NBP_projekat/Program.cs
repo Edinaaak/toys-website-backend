@@ -35,6 +35,7 @@ builder.Services.AddScoped<ITematskaCelina, TematskaCelinaRepository>();
 builder.Services.AddScoped<IRasprodajaRepository, RasprodajaRepository>();
 builder.Services.AddScoped<IKorpeRepository, KorpeRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(Program)));
 
@@ -73,15 +74,15 @@ using (var serviceScope = app.Services.CreateScope())
         await roleManager.CreateAsync(adminRole);
     }
 
-    if (!await roleManager.RoleExistsAsync("Slikar"))
+    if (!await roleManager.RoleExistsAsync("User"))
     {
-        var slikarRole = new AppRole("Slikar");
+        var slikarRole = new AppRole("User");
         await roleManager.CreateAsync(slikarRole);
     }
 
-    if (!await roleManager.RoleExistsAsync("Ziri"))
+    if (!await roleManager.RoleExistsAsync("Moderator"))
     {
-        var ziriRole = new AppRole("Ziri");
+        var ziriRole = new AppRole("Moderator");
         await roleManager.CreateAsync(ziriRole);
     }
 

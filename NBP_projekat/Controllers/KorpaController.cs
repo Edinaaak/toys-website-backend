@@ -28,5 +28,19 @@ namespace NBP_projekat.Controllers
             var result = await unitOfWork.KorpeRepository.AddProizvodToKorpa(request);
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await unitOfWork.KorpeRepository.DeleteKopra(id);
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ChangeQuantity(UpdateKorpaRequest updateKorpaRequest)
+        {
+            var result = await unitOfWork.KorpeRepository.ChangeQuantity(updateKorpaRequest.Id, updateKorpaRequest.Quantity);
+            return Ok(result);
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace UmetnickaDela.Infrastructure
         ITematskaCelina TematskaCelina { get; }
         IRasprodajaRepository RasprodajaRepository { get; }
         IKorpeRepository KorpeRepository { get; }
+        ICommentRepository CommentRepository { get; }
         Task<bool> CompleteAsync();
     }
 }

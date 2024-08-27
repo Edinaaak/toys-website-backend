@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using UmetnickaDela.Contracts.Models.Comments.Request;
 using UmetnickaDela.Contracts.Models.Identity.Request;
 using UmetnickaDela.Contracts.Models.Identity.Response;
 using UmetnickaDela.Contracts.Models.Korpa.Request;
@@ -26,6 +27,8 @@ namespace NBP_projekat.Mapping
             CreateMap<RasprodajaRequestCreateDTO, UmetnickoDelo>();
             CreateMap<Korpa, AddKorpaRequest>();
             CreateMap<AddKorpaRequest, Korpa>();
+            CreateMap<AddCommentRequest, Comments>();
+            CreateMap<Comments, AddCommentRequest>();
         }
     }
 }

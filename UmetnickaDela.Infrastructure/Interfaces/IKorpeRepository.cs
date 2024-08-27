@@ -13,5 +13,7 @@ namespace UmetnickaDela.Infrastructure.Interfaces
 
         Task<List<Korpa>> GetKorpaWithIncludeByUserId(int userId);
         Task<bool> AddProizvodToKorpa(AddKorpaRequest addKorpaRequest);
+        Task<bool> DeleteKopra(int korpaId);
+        Task<bool> ChangeQuantity(int korpaId, int quantity);
     }
 }

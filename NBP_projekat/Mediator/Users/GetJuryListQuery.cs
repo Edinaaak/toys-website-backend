@@ -23,7 +23,7 @@ namespace NBP_projekat.Mediator.Places
 
         public async Task<Result<IEnumerable<UserResponse>>> Handle(GetJuryListQuery request, CancellationToken cancellationToken)
         {
-            var list = await userManager.GetUsersInRoleAsync("Ziri");
+            var list = await userManager.GetUsersInRoleAsync("Moderator");
             var juryList = new List<User>();
             foreach(var user in list)
             {

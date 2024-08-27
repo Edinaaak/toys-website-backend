@@ -31,6 +31,29 @@ namespace UmetnickaDela.Infrastructure.Repositories
             return true;
         }
 
+        public async Task<bool> ChangeQuantity(int korpaId, int quantity)
+        {
+            var korpaFromDb = context.korpe.Where(x => x.Id == korpaId).FirstOrDefault();
+            korpaFromDb.Quantity = quantity;
+            context.korpe.Update(korpaFromDb);
+            var res = await context.SaveChangesAsync();
+            if(res > 0)
+                return true;
+            return false;
+        }
+
+        public async Task<bool> DeleteKopra(int korpaId)
+        {
+            var korpaFromDb = await context.korpe.Where(x => x.Id == korpaId).FirstOrDefaultAsync();
+            context.korpe.Remove(korpaFromDb);
+            var res = await context.SaveChangesAsync();
+            if (res > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public async Task<List<Korpa>> GetKorpaWithIncludeByUserId(int userId)
         {
             
